@@ -32,4 +32,8 @@ const handleAsync = (callback) => {
   };
 };
 
-module.exports = { readCSV, handleAsync };
+const formatError = (errorMessage) => {
+  return { error: errorMessage, success: false };
+};
+
+module.exports = { readCSV, handleAsync, formatError };

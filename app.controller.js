@@ -1,18 +1,19 @@
-const { readCSV, handleAsync } = require("./helpers");
+const { readCSV, handleAsync, formatError } = require("./helpers");
 
 const handelePostCertificates = handleAsync(async (req, res) => {
+  if (!req.file) return res.status(400).json(formatError("file is required"));
+
   // Invalid file type
-  if (req.file?.mimetype != "text/csv")
-    return res.status(400).json({ error: "Invalid file type", success: false });
+  if (req.file.mimetype != "text/csv")
+    return res.status(400).json(formatError("Invalid file type"));
 
   const { organisationName, companyLogo } = req.body;
 
   // Bad requrest
   if (!organisationName || !companyLogo)
-    return res.status(400).json({
-      error: "organisationName and companyLogo are required",
-      sucess: false,
-    });
+    return res
+      .status(400)
+      .json(formatError("organisationName and companyLogo are required"));
 
   // Read csv file
   const csv = await readCSV(req.file.path);
