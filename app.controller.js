@@ -19,8 +19,8 @@ const handelePostCertificates = handleAsync(async (req, res) => {
   const csv = await readCSV(req.file.path);
 
   // Append org name and logo to each certificate
-  const certificates = csv.map((row) => {
-    return { ...row, organisationName, companyLogo };
+  const certificates = csv.map(({ firstname, lastname, studentId }) => {
+    return { firstname, lastname, studentId, organisationName, companyLogo };
   });
 
   res.status(200).json({
