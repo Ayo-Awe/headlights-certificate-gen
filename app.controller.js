@@ -2,7 +2,7 @@ const { readCSV, handleAsync } = require("./helpers");
 
 const handelePostCertificates = handleAsync(async (req, res) => {
   // Invalid file type
-  if (req.file.mimetype != "text/csv")
+  if (req.file?.mimetype != "text/csv")
     return res.status(400).json({ error: "Invalid file type", success: false });
 
   const { organisationName, companyLogo } = req.body;
