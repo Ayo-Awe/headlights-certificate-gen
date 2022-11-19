@@ -117,6 +117,10 @@ fetch("http://localhost:8080/", requestOptions)
 }
 ```
 
+Note that for the format above the csv has to be in the following format
+![image](example.png)
+Failure to do so would result in unexpected behaviour
+
 ## Deployment
 
 This application is currently live [here](https://headlights-certificate-gen.onrender.com)
