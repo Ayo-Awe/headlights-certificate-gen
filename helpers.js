@@ -22,4 +22,14 @@ const readCSV = (filePath) =>
       .on("error", (error) => reject(error));
   });
 
-module.exports = { readCSV };
+const handleAsync = (callback) => {
+  return async (req, res, next) => {
+    try {
+      callback(req, res, next);
+    } catch (error) {
+      res.status(500).json({ error: error.message, success: false });
+    }
+  };
+};
+
+module.exports = { readCSV, handleAsync };
