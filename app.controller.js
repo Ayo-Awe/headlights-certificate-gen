@@ -1,19 +1,20 @@
 const { readCSV, handleAsync, formatError } = require("./helpers");
+const { postCertificateSchema } = require("./validators");
 
 const handelePostCertificates = handleAsync(async (req, res) => {
-  if (!req.file) return res.status(400).json(formatError("file is required"));
-
-  // Invalid file type
-  if (req.file.mimetype != "text/csv")
-    return res.status(400).json(formatError("Invalid file type"));
-
   const { organisationName, companyLogo } = req.body;
 
-  // Bad requrest
-  if (!organisationName || !companyLogo)
-    return res
-      .status(400)
-      .json(formatError("organisationName and companyLogo are required"));
+  // Define validation scehma
+  const schema = postCertificateSchema;
+
+  // Validate schema
+  const { error } = schema.validate({
+    organisationName,
+    companyLogo,
+    file: req.file,
+  });
+
+  if (error) return res.status(400).json(formatError(error.message));
 
   // Read csv file
   const csv = await readCSV(req.file.path);
