@@ -9,7 +9,7 @@ const upload = multer({ dest: os.tmpdir() }); // Set destination to os temporary
 app.use(express.json());
 
 // File upload handler Route
-app.post("/", upload.single("file"), async (req, res) => {
+app.post("/certificates", upload.single("file"), async (req, res) => {
   // Invalid file type
   if (req.file.mimetype != "text/csv")
     return res.status(400).json({ error: "Invalid file type", success: false });
@@ -29,6 +29,10 @@ app.post("/", upload.single("file"), async (req, res) => {
     success: true,
     totalCertificates: certificates.length,
   });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ error: "Resource Not Found", success: false });
 });
 
 const port = process.env.PORT || 8080;
